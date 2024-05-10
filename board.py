@@ -4,6 +4,12 @@ sc = turtle.Screen()
 sc.tracer(0)
 t = turtle.Turtle()
 
+EASY = 1
+MEDIUM = 3
+HARD = 5
+
+
+
 def draw_square():
     t.begin_fill()
     for _ in range(4):
