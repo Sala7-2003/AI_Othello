@@ -2,3 +2,5 @@
 test
 *.PDF
 todo.txt
+__pycache__
+
