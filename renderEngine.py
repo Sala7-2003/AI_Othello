@@ -1,9 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
-from gameState import GameState
-from player import Player
-from computer import Computer
-from board import Board
+
 
 class RenderEngine:
     def __init__(self, startCommand, gameState, playerPlay):

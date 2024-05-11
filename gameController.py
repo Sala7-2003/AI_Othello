@@ -55,8 +55,8 @@ class GameController:
         
         self.renderEngine.updateBoardFrm(self.gameEngine.getValidMoves(self.gameState.turn))
         
-        # threading.Timer(3, self.computerMove).start()
-        self.computerMove()
+        threading.Timer(3, self.computerMove).start()
+        # self.computerMove()
         
         
 

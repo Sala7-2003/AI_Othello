@@ -1,5 +1,4 @@
-from renderEngine import RenderEngine
-import tkinter as tk
+from gameController import GameController
 
 gameController = GameController()
 

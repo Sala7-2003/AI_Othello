@@ -20,15 +20,12 @@ class Computer:
     def getMove(self, board, playerDiskColor):
         boardCpy = copy.deepcopy(board.getBoard())
         _, move = self.minimax(0, True, MIN, MAX, boardCpy, playerDiskColor)
-        if move == None:
-            move = GameEngine(copy.deepcopy(board.getBoard())).getValidMoves(self.diskColor)[0]
         return move
     
     
     
     
-    def minimax(self, depth, maximizingPlayer, 
-         alpha, beta, board, playerDiskColor): 
+    def minimax(self, depth, maximizingPlayer, alpha, beta, board, playerDiskColor):
 
         gameEngine = GameEngine(board)
         
@@ -41,12 +38,11 @@ class Computer:
             bestMove = None
 
             validMoves = gameEngine.getValidMoves(self.diskColor)
-            
+
             for move in validMoves: 
                 gameEngine.outflankOpenetDisk(move, self.diskColor)
-                val,_  = self.minimax(depth + 1, 
-                            False, alpha, beta, copy.deepcopy(board), playerDiskColor) 
-                if val > best:
+                val,_  = self.minimax(depth + 1, False, alpha, beta, copy.deepcopy(board), playerDiskColor)
+                if val >= best:
                     bestMove = move
                     best = val
                 
@@ -67,7 +63,7 @@ class Computer:
             for move in validMoves: 
                 val,_ = self.minimax(depth + 1, 
                                 True, alpha, beta, copy.deepcopy(board), playerDiskColor)
-                if val < best:
+                if val <= best:
                     best = val
                     bestMove = move
                 beta = min(beta, best) 
