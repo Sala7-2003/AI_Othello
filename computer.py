@@ -36,9 +36,10 @@ class Computer:
         if maximizingPlayer: 
 
             best = MIN
-            bestMove = None
 
             validMoves = gameEngine.getValidMoves(self.diskColor)
+            bestMove = validMoves[0]
+            
             
             for move in validMoves: 
                 gameEngine.outflankOpenetDisk(move, self.diskColor)
@@ -58,9 +59,10 @@ class Computer:
 
         else:
             best = MAX
-            bestMove = None
 
             validMoves = gameEngine.getValidMoves(playerDiskColor)
+            bestMove = validMoves[0]
+            
 
             for move in validMoves: 
                 val,_ = self.minimax(depth + 1, 
