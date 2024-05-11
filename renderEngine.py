@@ -16,7 +16,8 @@ class RenderEngine:
         self.gameState = gameState
         
         self.initBackgroundImg()
-        self.initStartFrm()
+        
+        
         
     
     def start(self):
@@ -26,6 +27,8 @@ class RenderEngine:
     def showStartFrame(self):
         self.boardFrame.pack_forget()
         self.startFrame.pack(fill=tk.BOTH, expand=True)
+        self.initStartFrm()
+        
     
     def showBoardFrame(self):
         self.startFrame.pack_forget()
@@ -80,12 +83,16 @@ class RenderEngine:
             return
         self.gameState.player.name = self.entryName.get()
         self.gameState.computer.updateDifficulty(difficulty=difficulty)
-        self.startCommand()  
+        self.startCommand()
         self.showBoardFrame()
     
     def initBoardFrm(self):
         playerPieceImg = tk.PhotoImage(file="./assets/black_disk_small.png")
         computerPiecetImg = tk.PhotoImage(file="./assets/white_disk_small.png")
+        whoIsTurn = "computer"
+        if self.gameState.turn == self.gameState.player.diskColor:
+            whoIsTurn = self.gameState.player.name
+            
         
         self.boardFrame.grid_columnconfigure(0, weight=1, uniform="column")
         self.boardFrame.grid_columnconfigure(1, weight=1, uniform="column")
@@ -104,21 +111,21 @@ class RenderEngine:
         
         turnFrame = tk.Frame(self.boardFrame, bg="green")
         turnFrame.grid(row=1, columnspan=2, padx=10, pady=10, sticky="ew")
-        self.lblTurn = tk.Label(turnFrame, text=self.gameState.turn, font=("Arial", 16), bg='#2e6131', fg="white", relief="flat", justify="center").pack(fill="x", pady=5, anchor="center")
+        self.lblTurn = tk.Label(turnFrame, text=f"{whoIsTurn} 's turn", font=("Arial", 16), bg='#2e6131', fg="white", relief="flat", justify="center").pack(fill="x", pady=5, anchor="center")
         self.drawBoard([])
         
     def drawBoard(self, validMoves):
         self.gridBoardFrm = []
-        wrapperFrame = tk.Frame(self.boardFrame)
-        wrapperFrame.grid(row=2, column=0, padx=10, pady=10, columnspan=2)
+        self.wrapperFrame = tk.Frame(self.boardFrame)
+        self.wrapperFrame.grid(row=2, column=0, padx=10, pady=10, columnspan=2)
         circle_radius = 25
-        
+
         board = self.gameState.board.getBoard()
 
         for i in range(8):
             frames = []
             for j in range(8):
-                fr = tk.Frame(wrapperFrame, width='60', height='60', bg='green', highlightbackground='black', highlightthickness=2)
+                fr = tk.Frame(self.wrapperFrame, width='60', height='60', bg='green', highlightbackground='black', highlightthickness=2)
                 frames.append(fr)
                 fr.grid(row=i, column=j, padx=2, pady=2)  # Adjust padding as needed
                 
@@ -139,14 +146,17 @@ class RenderEngine:
 
                 if(board[i][j] == "black"):
                     canvas.create_oval(x - circle_radius, y - circle_radius, x + circle_radius, y + circle_radius, outline="black", fill="black")
-                                       
-            self.gridBoardFrm.append(frames)
+                    
+                canvas.bind("<Button-1>", lambda event, row=i, col=j: self.gameState.player.userClick(row, col))
+
+            
+        
     
         
 
-def startGame():
-    pass
+# def startGame():
+#     pass
     
-gameState =  GameState(player=Player("white"), computer=Computer("black", ""), board=Board(), turn="player")   
-renderEng = RenderEngine(startCommand=startGame, gameState=gameState)
-renderEng.start()
+# gameState =  GameState(player=Player("black"), computer=Computer("white"), board=Board(), turn="black")   
+# renderEng = RenderEngine(startCommand=startGame, gameState=gameState)
+# renderEng.start()

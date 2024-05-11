@@ -8,9 +8,7 @@ class Player:
     def getMove(self):
         return self.move
     
-    def userClick(self, event):
-        row = event.widget.grid_info()["row"]
-        column = event.widget.grid_info()["column"]
-        self.move = (row, column)
+    def userClick(self, row, col):
+        self.move = (row, col)
             
         

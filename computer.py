@@ -1,9 +1,8 @@
 class Computer:
-    def __init__(self, diskColor, difficulty):
+    def __init__(self, diskColor):
         self.diskColor = diskColor
         self.diskNums = 0
         self.difficulty = 0
-        self.updateDifficulty(difficulty)
 
     def updateDifficulty(self, difficulty):
         if(difficulty == "easy"):
