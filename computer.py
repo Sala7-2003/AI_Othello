@@ -3,11 +3,12 @@ class Computer:
         self.diskColor = diskColor
         self.diskNums = 0
         self.difficulty = 0
+        self.updateDifficulty(difficulty)
+
+    def updateDifficulty(self, difficulty):
         if(difficulty == "easy"):
             self.difficulty = 1
         elif(difficulty == "medium"):
             self.difficulty = 3
         elif(difficulty == "hard"):
             self.difficulty = 5
-
-        

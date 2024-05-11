@@ -30,6 +30,7 @@ class RenderEngine:
     def showBoardFrame(self):
         self.startFrame.pack_forget()
         self.boardFrame.pack(fill=tk.BOTH, expand=True)
+        self.initBoardFrm()
     
     def initBackgroundImg(self):
         self.bgImg = tk.PhotoImage(file="./assets/background2.png")
@@ -78,7 +79,7 @@ class RenderEngine:
         if(self.entryName.get() == ""):
             return
         self.gameState.player.name = self.entryName.get()
-        self.gameState.computer.difficulty = difficulty
+        self.gameState.computer.updateDifficulty(difficulty=difficulty)
         self.startCommand()  
         self.showBoardFrame()
     
@@ -91,7 +92,7 @@ class RenderEngine:
         playerFrame = tk.Frame(self.boardFrame, bg="green")
         playerFrame.grid(row=0, column=0, padx=10, pady=10, sticky="ew")
         tk.Label(playerFrame, image=playerPieceImg, bg="black").pack(side="right")
-        tk.Label(playerFrame, text="Player", font=("Arial", 16), bg='#2e6131', fg="white", relief="flat", justify="center").pack(fill="x", pady=5, anchor="center")
+        tk.Label(playerFrame, text=self.gameState.player.name, font=("Arial", 16), bg='#2e6131', fg="white", relief="flat", justify="center").pack(fill="x", pady=5, anchor="center")
         self.playerScore = tk.Label(playerFrame, text=str(self.gameState.player.diskNums), font=("Arial", 16), bg='#2e6131', fg="white", relief="flat", justify="center").pack(fill="x", pady=5, anchor="center")
 
         
@@ -148,5 +149,4 @@ def startGame():
     
 gameState =  GameState(player=Player("white"), computer=Computer("black", ""), board=Board(), turn="player")   
 renderEng = RenderEngine(startCommand=startGame, gameState=gameState)
-renderEng.initBoardFrm()
 renderEng.start()
