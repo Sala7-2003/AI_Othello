@@ -36,10 +36,9 @@ class Computer:
         if maximizingPlayer: 
 
             best = MIN
+            bestMove = None
 
             validMoves = gameEngine.getValidMoves(self.diskColor)
-            bestMove = validMoves[0]
-            
             
             for move in validMoves: 
                 gameEngine.outflankOpenetDisk(move, self.diskColor)
@@ -49,7 +48,6 @@ class Computer:
                     bestMove = move
                     best = val
                 
-                # best = max(best, val) 
                 alpha = max(alpha, best) 
 
                 if beta <= alpha: 
@@ -59,18 +57,17 @@ class Computer:
 
         else:
             best = MAX
+            bestMove = None
 
             validMoves = gameEngine.getValidMoves(playerDiskColor)
-            bestMove = validMoves[0]
             
-
+        
             for move in validMoves: 
                 val,_ = self.minimax(depth + 1, 
                                 True, alpha, beta, copy.deepcopy(board), playerDiskColor)
                 if val < best:
                     best = val
                     bestMove = move
-                # best = min(best, val) 
                 beta = min(beta, best) 
 
                 # Alpha Beta Pruning 
