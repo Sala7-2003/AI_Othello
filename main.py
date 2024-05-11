@@ -1,8 +1,7 @@
 from renderEngine import RenderEngine
 import tkinter as tk
 
-renderEng = RenderEngine()
+gameController = GameController()
 
-
-renderEng.start()
+gameController.startGame()
 

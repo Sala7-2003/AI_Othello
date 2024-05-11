@@ -157,16 +157,10 @@ class RenderEngine:
 
     def displayWinner(self, winner):
         self.gameState.turn = winner
-        print(self.gameState.turn)
         self.updateBoardFrm([])
             
         
     
         
 
-def startGame():
-    pass
-    
-# gameState =  GameState(player=Player("black"), computer=Computer("white"), board=Board(), turn="black")   
-# renderEng = RenderEngine(startCommand=startGame, gameState=gameState)
-# renderEng.start()
+

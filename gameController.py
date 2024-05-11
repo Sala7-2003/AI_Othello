@@ -87,7 +87,6 @@ class GameController:
         
 
     def endGame(self):
-        print("test")
         winner = None
         if(self.gameState.player.diskNums > self.gameState.computer.diskNums):
             winner = f"{self.gameState.player.name} Wins"
@@ -99,7 +98,5 @@ class GameController:
     
     
 
-gameController = GameController()
-gameController.startGame()
 
 
