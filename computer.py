@@ -20,6 +20,8 @@ class Computer:
     def getMove(self, board, playerDiskColor):
         boardCpy = copy.deepcopy(board.getBoard())
         _, move = self.minimax(0, True, MIN, MAX, boardCpy, playerDiskColor)
+        if move == None:
+            move = GameEngine(copy.deepcopy(board.getBoard())).getValidMoves(self.diskColor)[0]
         return move
     
     
