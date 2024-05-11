@@ -6,13 +6,14 @@ from computer import Computer
 from board import Board
 
 class RenderEngine:
-    def __init__(self, startCommand, gameState):
+    def __init__(self, startCommand, gameState, playerPlay):
         self.window = tk.Tk()
         self.window.geometry("900x800")
         self.window.title("Othello Game")   
         self.startFrame = tk.Frame(self.window)
         self.boardFrame = tk.Frame(self.window)
         self.startCommand = startCommand
+        self.playerPlay = playerPlay
         self.gameState = gameState
         
         self.initBackgroundImg()
@@ -33,7 +34,7 @@ class RenderEngine:
     def showBoardFrame(self):
         self.startFrame.pack_forget()
         self.boardFrame.pack(fill=tk.BOTH, expand=True)
-        self.initBoardFrm()
+        self.updateBoardFrm([])
     
     def initBackgroundImg(self):
         self.bgImg = tk.PhotoImage(file="./assets/background2.png")
@@ -83,15 +84,18 @@ class RenderEngine:
             return
         self.gameState.player.name = self.entryName.get()
         self.gameState.computer.updateDifficulty(difficulty=difficulty)
-        self.startCommand()
         self.showBoardFrame()
+        self.startCommand()
+        
     
-    def initBoardFrm(self):
+    def updateBoardFrm(self, validMoves):
         playerPieceImg = tk.PhotoImage(file="./assets/black_disk_small.png")
         computerPiecetImg = tk.PhotoImage(file="./assets/white_disk_small.png")
-        whoIsTurn = "computer"
+        whoIsTurn = self.gameState.turn
         if self.gameState.turn == self.gameState.player.diskColor:
-            whoIsTurn = self.gameState.player.name
+            whoIsTurn = f"{self.gameState.player.name}'s turn"
+        elif self.gameState.turn == self.gameState.computer.diskColor:
+            whoIsTurn = "Computer's turn"
             
         
         self.boardFrame.grid_columnconfigure(0, weight=1, uniform="column")
@@ -111,8 +115,10 @@ class RenderEngine:
         
         turnFrame = tk.Frame(self.boardFrame, bg="green")
         turnFrame.grid(row=1, columnspan=2, padx=10, pady=10, sticky="ew")
-        self.lblTurn = tk.Label(turnFrame, text=f"{whoIsTurn} 's turn", font=("Arial", 16), bg='#2e6131', fg="white", relief="flat", justify="center").pack(fill="x", pady=5, anchor="center")
-        self.drawBoard([])
+        self.lblTurn = tk.Label(turnFrame, text=f"{whoIsTurn}", font=("Arial", 16), bg='#2e6131', fg="white", relief="flat", justify="center")
+        self.lblTurn.pack(fill="x", pady=5, anchor="center")
+        self.drawBoard(validMoves)
+        
         
     def drawBoard(self, validMoves):
         self.gridBoardFrm = []
@@ -147,15 +153,19 @@ class RenderEngine:
                 if(board[i][j] == "black"):
                     canvas.create_oval(x - circle_radius, y - circle_radius, x + circle_radius, y + circle_radius, outline="black", fill="black")
                     
-                canvas.bind("<Button-1>", lambda event, row=i, col=j: self.gameState.player.userClick(row, col))
+                canvas.bind("<Button-1>", lambda event, row=i, col=j: self.playerPlay((row, col)))
 
+    def displayWinner(self, winner):
+        self.gameState.turn = winner
+        print(self.gameState.turn)
+        self.updateBoardFrm([])
             
         
     
         
 
-# def startGame():
-#     pass
+def startGame():
+    pass
     
 # gameState =  GameState(player=Player("black"), computer=Computer("white"), board=Board(), turn="black")   
 # renderEng = RenderEngine(startCommand=startGame, gameState=gameState)
