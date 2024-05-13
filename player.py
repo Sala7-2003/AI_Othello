@@ -3,6 +3,7 @@ class Player:
         self.name = ""
         self.diskColor = diskColor
         self.diskNums = 2
+        self.disksPlayed = 0;
     
             
         

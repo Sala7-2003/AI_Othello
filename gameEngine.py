@@ -3,7 +3,9 @@ class GameEngine:
         self.board = board
         self.MOVE_DIR = [(0, 1), (0, -1), (1, 0), (-1, 0)]
     
-    def isGameEnd(self):
+    def isGameEnd(self, blackDisksPlayed, whiteDisksPlayed):
+        if blackDisksPlayed >=30 and whiteDisksPlayed >= 30:
+            return True
         return not self.canMove("white") and not self.canMove("black")
     
     

@@ -7,6 +7,7 @@ class Computer:
         self.diskColor = diskColor
         self.diskNums = 2
         self.difficulty = 0
+        self.disksPlayed = 0;
 
 
     def updateDifficulty(self, difficulty):
@@ -17,17 +18,20 @@ class Computer:
         elif(difficulty == "hard"):
             self.difficulty = 5
     
-    def getMove(self, board, playerDiskColor):
+    def getMove(self, board, playerDiskColor, playerDisksPlayed):
         boardCpy = copy.deepcopy(board.getBoard())
-        _, move = self.minimax(0, True, MIN, MAX, boardCpy, playerDiskColor)
+        _, move = self.minimax(0, True, MIN, MAX, boardCpy, playerDiskColor, playerDisksPlayed, self.disksPlayed)
         return move
     
     
     
     
-    def minimax(self, depth, maximizingPlayer, alpha, beta, board, playerDiskColor):
+    def minimax(self, depth, maximizingPlayer, alpha, beta, board, playerDiskColor, playerDisksPlayed, computerDisksPlayed):
 
         gameEngine = GameEngine(board)
+        
+        if gameEngine.isGameEnd(playerDisksPlayed, computerDisksPlayed):
+            return (self.evaluate(board), ())
         
         if depth == self.difficulty: 
             return (self.evaluate(board), ())
@@ -41,7 +45,7 @@ class Computer:
 
             for move in validMoves: 
                 gameEngine.outflankOpenetDisk(move, self.diskColor)
-                val,_  = self.minimax(depth + 1, False, alpha, beta, copy.deepcopy(board), playerDiskColor)
+                val,_  = self.minimax(depth + 1, False, alpha, beta, copy.deepcopy(board), playerDiskColor, playerDisksPlayed, computerDisksPlayed+1)
                 if val >= best:
                     bestMove = move
                     best = val
@@ -62,7 +66,7 @@ class Computer:
         
             for move in validMoves: 
                 val,_ = self.minimax(depth + 1, 
-                                True, alpha, beta, copy.deepcopy(board), playerDiskColor)
+                                True, alpha, beta, copy.deepcopy(board), playerDiskColor, playerDisksPlayed+1, computerDisksPlayed)
                 if val <= best:
                     best = val
                     bestMove = move

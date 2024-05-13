@@ -40,9 +40,10 @@ class GameController:
         
         self.gameState.player.diskNums += diskOutFlanked + 1
         self.gameState.computer.diskNums -= diskOutFlanked 
+        self.gameState.player.disksPlayed += 1
         
         
-        if self.gameEngine.isGameEnd():
+        if self.gameEngine.isGameEnd(self.gameState.player.disksPlayed, self.gameState.computer.disksPlayed):
             self.endGame()    
             return
         
@@ -55,22 +56,23 @@ class GameController:
         
         self.renderEngine.updateBoardFrm(self.gameEngine.getValidMoves(self.gameState.turn))
         
-        threading.Timer(3, self.computerMove).start()
-        # self.computerMove()
+        # threading.Timer(3, self.computerMove).start()
+        self.computerMove()
         
         
 
     def computerMove(self):     
         while(self.gameState.turn == self.gameState.computer.diskColor):
-            move = self.gameState.computer.getMove(self.gameState.board, self.gameState.player.diskColor)
+            move = self.gameState.computer.getMove(self.gameState.board, self.gameState.player.diskColor, self.gameState.player.disksPlayed)
                     
             diskOutFlanked = self.gameEngine.outflankOpenetDisk(move, self.gameState.turn)
             
             self.gameState.player.diskNums -= diskOutFlanked
             self.gameState.computer.diskNums += diskOutFlanked + 1
+            self.gameState.computer.disksPlayed += 1;
             
             
-            if self.gameEngine.isGameEnd():
+            if self.gameEngine.isGameEnd(self.gameState.player.disksPlayed, self.gameState.computer.disksPlayed):
                     self.endGame()
                     return   
                 
