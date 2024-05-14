@@ -21,12 +21,7 @@ class GameController:
     def startGame(self):
         self.renderEngine.start()
         
-    def switchTurn(self):
-        turn = self.gameState.turn
-        if turn == "black":
-            self.gameEngine.turn = "white"
-        elif turn == "white":
-            self.gameEngine.turn = "black"
+
     
     def playerPlay(self, move):
         # not player turn
@@ -69,7 +64,7 @@ class GameController:
             
             self.gameState.player.diskNums -= diskOutFlanked
             self.gameState.computer.diskNums += diskOutFlanked + 1
-            self.gameState.computer.disksPlayed += 1;
+            self.gameState.computer.disksPlayed += 1
             
             
             if self.gameEngine.isGameEnd(self.gameState.player.disksPlayed, self.gameState.computer.disksPlayed):
