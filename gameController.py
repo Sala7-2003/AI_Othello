@@ -7,6 +7,8 @@ from gameState import GameState
 import threading
 
 
+
+
 class GameController:
     def __init__(self):
         self.gameState = GameState(player=Player("black"), computer=Computer("white"), board=Board(), turn="black")

@@ -7,7 +7,7 @@ class Computer:
         self.diskColor = diskColor
         self.diskNums = 2
         self.difficulty = 0
-        self.disksPlayed = 0;
+        self.disksPlayed = 0
 
 
     def updateDifficulty(self, difficulty):
