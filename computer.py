@@ -17,7 +17,7 @@ class Computer:
             self.difficulty = 3
         elif(difficulty == "hard"):
             self.difficulty = 5
-    
+
     def getMove(self, board, playerDiskColor, playerDisksPlayed):
         boardCpy = copy.deepcopy(board.getBoard())
         _, move = self.minimax(0, True, MIN, MAX, boardCpy, playerDiskColor, playerDisksPlayed, self.disksPlayed)
@@ -44,8 +44,10 @@ class Computer:
             validMoves = gameEngine.getValidMoves(self.diskColor)
 
             for move in validMoves: 
-                gameEngine.outflankOpenetDisk(move, self.diskColor)
-                val,_  = self.minimax(depth + 1, False, alpha, beta, copy.deepcopy(board), playerDiskColor, playerDisksPlayed, computerDisksPlayed+1)
+                currBoard = copy.deepcopy(board)
+                currGamEngine =  GameEngine(currBoard)
+                currGamEngine.outflankOpenetDisk(move, self.diskColor)
+                val,_  = self.minimax(depth + 1, False, alpha, beta, currBoard, playerDiskColor, playerDisksPlayed, computerDisksPlayed+1)
                 if val >= best:
                     bestMove = move
                     best = val
@@ -65,8 +67,11 @@ class Computer:
             
         
             for move in validMoves: 
+                currBoard = copy.deepcopy(board)
+                currGamEngine =  GameEngine(currBoard)
+                currGamEngine.outflankOpenetDisk(move, self.diskColor)
                 val,_ = self.minimax(depth + 1, 
-                                True, alpha, beta, copy.deepcopy(board), playerDiskColor, playerDisksPlayed+1, computerDisksPlayed)
+                                True, alpha, beta, copy.deepcopy(currBoard), playerDiskColor, playerDisksPlayed+1, computerDisksPlayed)
                 if val <= best:
                     best = val
                     bestMove = move
